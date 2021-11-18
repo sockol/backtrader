@@ -423,6 +423,9 @@ class AbstractDataBase(with_metaclass(MetaAbstractDataBase,
             if self.lines.datetime[0] > datamaster.lines.datetime[0]:
                 # can't deliver new bar, too early, go back
                 self.rewind()
+                # Adding this line below else it fails if 2 datafeeds arrive at the same time.
+                # https://community.backtrader.com/topic/1367/error-__len__-should-return-0-on-livefeed/4
+                return False
             else:
                 if ticks:
                     self._tick_fill()
